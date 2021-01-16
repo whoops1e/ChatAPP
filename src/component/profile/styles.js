@@ -19,6 +19,16 @@ const getDimensions = (key) => {
           width: 150,
           borderRadius: 75,
         };
+      case "editImgContainer":
+        return {
+          height: 40,
+          width: 40,
+          borderRadius: 20,
+          backgroundColor: color.SEMI_TRANSPARENT,
+          position: "absolute",
+          right: 20,
+          bottom: 10,
+        };
 
       default:
         return null;
@@ -39,6 +49,16 @@ const getDimensions = (key) => {
           width: 120,
           borderRadius: 60,
         };
+      case "editImgContainer":
+        return {
+          height: 40,
+          width: 40,
+          borderRadius: 20,
+          backgroundColor: color.SEMI_TRANSPARENT,
+          position: "absolute",
+          right: 10,
+          bottom: 10,
+        };
 
       default:
         return null;
@@ -52,6 +72,7 @@ export default StyleSheet.create({
   },
   imgContainer: getDimensions("imgContainer"),
   img: getDimensions("img"),
+  editImgContainer: getDimensions("editImgContainer"),
   name: {
     color: appStyle.fieldTextColor,
     fontSize: 50,

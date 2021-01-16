@@ -23,6 +23,14 @@ export default ({ img, name, onImgTap, onEditImgTap }) => (
           </View>
         )}
       </TouchableOpacity>
+      <View style={[globalStyle.sectionCentered, styles.editImgContainer]}>
+        <FontAwesome5
+          name="user-edit"
+          size={20}
+          onPress={onEditImgTap}
+          color={color.WHITE}
+        />
+      </View>
     </View>
     <Text style={styles.welcome}>{name}</Text>
   </View>

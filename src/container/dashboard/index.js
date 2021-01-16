@@ -1,7 +1,8 @@
 import React, { useContext, useEffect, useState, useLayoutEffect } from "react";
 import { SafeAreaView, Alert, Text, View, FlatList } from "react-native";
 import SimpleLineIcons from "react-native-vector-icons/SimpleLineIcons";
-import { Profile, StickyHeader } from "../../component";
+import ImagePicker from "react-native-image-picker";
+import { Profile, ShowUsers, StickyHeader } from "../../component";
 import firebase from "../../firebase/config";
 import { color } from "../../utility";
 import { Store } from "../../context/store";
@@ -9,7 +10,7 @@ import { LOADING_STOP, LOADING_START } from "../../context/actions/type";
 import { uuid, smallDeviceHeight } from "../../utility/constants";
 import { clearAsyncStorage } from "../../asyncStorage";
 import { deviceHeight } from "../../utility/styleHelper/appStyle";
-import { LogOutUser } from "../../network";
+import { UpdateUser, LogOutUser } from "../../network";
 
 export default ({ navigation }) => {
   const globalState = useContext(Store);
@@ -20,10 +21,9 @@ export default ({ navigation }) => {
     name: "",
     profileImg: "",
   });
-    
   const [getScrollPosition, setScrollPosition] = useState(0);
+  const [allUsers, setAllUsers] = useState([]);
   const { profileImg, name } = userDetail;
-    
   useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => (
@@ -73,9 +73,16 @@ export default ({ navigation }) => {
               currentUser.id = uuid;
               currentUser.name = child.val().name;
               currentUser.profileImg = child.val().profileImg;
-            } 
+            } else {
+              users.push({
+                id: child.val().uuid,
+                name: child.val().name,
+                profileImg: child.val().profileImg,
+              });
+            }
           });
           setUserDetail(currentUser);
+          setAllUsers(users);
           dispatchLoaderAction({
             type: LOADING_STOP,
           });
@@ -88,8 +95,49 @@ export default ({ navigation }) => {
     }
   }, []);
 
+  const selectPhotoTapped = () => {
+    const options = {
+      storageOptions: {
+        skipBackup: true,
+      },
+    };
 
-  // * LOG OUT
+    ImagePicker.showImagePicker(options, (response) => {
+      console.log("Response = ", response);
+
+      if (response.didCancel) {
+        console.log("User cancelled photo picker");
+      } else if (response.error) {
+        console.log("ImagePicker Error: ", response.error);
+      } else if (response.customButton) {
+        console.log("User tapped custom button: ", response.customButton);
+      } else {
+        // Base 64 image:
+        let source = "data:image/jpeg;base64," + response.data;
+        dispatchLoaderAction({
+          type: LOADING_START,
+        });
+        UpdateUser(uuid, source)
+          .then(() => {
+            setUserDetail({
+              ...userDetail,
+              profileImg: source,
+            });
+            dispatchLoaderAction({
+              type: LOADING_STOP,
+            });
+          })
+          .catch(() => {
+            alert(err);
+            dispatchLoaderAction({
+              type: LOADING_STOP,
+            });
+          });
+      }
+    });
+  };
+
+
   const logout = () => {
     LogOutUser()
       .then(() => {
@@ -102,7 +150,6 @@ export default ({ navigation }) => {
       .catch((err) => alert(err));
   };
 
-  // * ON IMAGE TAP
   const imgTap = (profileImg, name) => {
     if (!profileImg) {
       navigation.navigate("ShowFullImg", {
@@ -113,8 +160,7 @@ export default ({ navigation }) => {
       navigation.navigate("ShowFullImg", { name, img: profileImg });
     }
   };
-
-  // * GET OPACITY
+    
 
   const getOpacity = () => {
     if (deviceHeight < smallDeviceHeight) {
@@ -133,8 +179,10 @@ export default ({ navigation }) => {
         />
       )}
 
+      
       <FlatList
         alwaysBounceVertical={false}
+        data={allUsers}
         keyExtractor={(_, index) => index.toString()}
         onScroll={(event) =>
           setScrollPosition(event.nativeEvent.contentOffset.y)
@@ -151,11 +199,18 @@ export default ({ navigation }) => {
             <Profile
               img={profileImg}
               onImgTap={() => imgTap(profileImg, name)}
-              
+              onEditImgTap={() => selectPhotoTapped()}
               name={name}
             />
           </View>
         }
+        renderItem={({ item }) => (
+          <ShowUsers
+            name={item.name}
+            img={item.profileImg}
+            onImgTap={() => imgTap(item.profileImg, item.name)}
+          />
+        )}
       />
     </SafeAreaView>
   );
