@@ -17,7 +17,7 @@ const ShowUsers = ({ name, img, onImgTap, onNameTap }) => {
           </TouchableOpacity>
 
           <Body>
-            <Text style={styles.profileName}>
+            <Text style={styles.profileName} onPress={onNameTap}>
               {name}
             </Text>
           </Body>
