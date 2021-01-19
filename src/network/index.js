@@ -9,4 +9,7 @@ export {
   SignUpRequest,
   AddUser,
   LogOutUser,
+  UpdateUser,
+  senderMsg,
+  recieverMsg,
 };

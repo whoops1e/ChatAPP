@@ -15,7 +15,6 @@ import { UpdateUser, LogOutUser } from "../../network";
 export default ({ navigation }) => {
   const globalState = useContext(Store);
   const { dispatchLoaderAction } = globalState;
-
   const [userDetail, setUserDetail] = useState({
     id: "",
     name: "",
@@ -52,6 +51,7 @@ export default ({ navigation }) => {
       ),
     });
   }, [navigation]);
+  
 
   useEffect(() => {
     dispatchLoaderAction({
@@ -94,6 +94,7 @@ export default ({ navigation }) => {
       });
     }
   }, []);
+  
 
   const selectPhotoTapped = () => {
     const options = {
@@ -101,10 +102,10 @@ export default ({ navigation }) => {
         skipBackup: true,
       },
     };
+	
 
     ImagePicker.showImagePicker(options, (response) => {
       console.log("Response = ", response);
-
       if (response.didCancel) {
         console.log("User cancelled photo picker");
       } else if (response.error) {
@@ -150,6 +151,7 @@ export default ({ navigation }) => {
       .catch((err) => alert(err));
   };
 
+
   const imgTap = (profileImg, name) => {
     if (!profileImg) {
       navigation.navigate("ShowFullImg", {
@@ -160,7 +162,26 @@ export default ({ navigation }) => {
       navigation.navigate("ShowFullImg", { name, img: profileImg });
     }
   };
-    
+
+
+  const nameTap = (profileImg, name, guestUserId) => {
+    if (!profileImg) {
+      navigation.navigate("Chat", {
+        name,
+        imgText: name.charAt(0),
+        guestUserId,
+        currentUserId: uuid,
+      });
+    } else {
+      navigation.navigate("Chat", {
+        name,
+        img: profileImg,
+        guestUserId,
+        currentUserId: uuid,
+      });
+    }
+  };
+
 
   const getOpacity = () => {
     if (deviceHeight < smallDeviceHeight) {
@@ -179,7 +200,7 @@ export default ({ navigation }) => {
         />
       )}
 
-      
+
       <FlatList
         alwaysBounceVertical={false}
         data={allUsers}
@@ -209,6 +230,7 @@ export default ({ navigation }) => {
             name={item.name}
             img={item.profileImg}
             onImgTap={() => imgTap(item.profileImg, item.name)}
+            onNameTap={() => nameTap(item.profileImg, item.name, item.id)}
           />
         )}
       />

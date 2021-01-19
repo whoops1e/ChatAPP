@@ -3,9 +3,10 @@ import InputField from "./input";
 import Logo from "./logo";
 import Loader from "./loader";
 import Profile from "./profile";
-import StickyHeader from "./stickyHeader";
-import FieldInput from "./fieldInput";
 import ShowUsers from "./showUsers";
+import StickyHeader from "./stickyHeader";
+import ChatBox from "./chatBox";
+import FieldInput from "./fieldInput";
 
 export {
   RoundCornerButton,
@@ -13,7 +14,8 @@ export {
   Logo,
   Loader,
   Profile,
-  StickyHeader,
-  FieldInput,
   ShowUsers,
+  StickyHeader,
+  ChatBox,
+  FieldInput,
 };

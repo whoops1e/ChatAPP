@@ -36,7 +36,7 @@ export default ({ navigation }) => {
   };
 
 
-    const onSignUpPress = () => {
+  const onSignUpPress = () => {
     Keyboard.dismiss();
     if (!name) {
       alert("Name is required");
@@ -86,18 +86,21 @@ export default ({ navigation }) => {
     }
   };
 
-    const handleOnChange = (name, value) => {
+
+  const handleOnChange = (name, value) => {
     setCredential({
       ...credential,
       [name]: value,
     });
   };
 
+
   const handleFocus = () => {
     setTimeout(() => {
       toggleLogo(false);
     }, 200);
   };
+
 
   const handleBlur = () => {
     setTimeout(() => {
