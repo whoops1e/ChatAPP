@@ -15,7 +15,7 @@ export default StyleSheet.create({
 
   sendBtnContainer: {
     height: appStyle.fieldHeight,
-    backgroundColor: color.DARK_GRAY,
+    backgroundColor: color.L_GRAY,
     borderTopRightRadius: 20,
     borderBottomRightRadius: 20,
     alignItems: "center",
