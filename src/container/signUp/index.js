@@ -35,7 +35,6 @@ export default ({ navigation }) => {
     setCredential({ email: "", password: "", confirmPassword: "" });
   };
 
-
   const onSignUpPress = () => {
     Keyboard.dismiss();
     if (!name) {
@@ -86,7 +85,6 @@ export default ({ navigation }) => {
     }
   };
 
-
   const handleOnChange = (name, value) => {
     setCredential({
       ...credential,
@@ -94,13 +92,11 @@ export default ({ navigation }) => {
     });
   };
 
-
   const handleFocus = () => {
     setTimeout(() => {
       toggleLogo(false);
     }, 200);
   };
-
 
   const handleBlur = () => {
     setTimeout(() => {
@@ -114,7 +110,7 @@ export default ({ navigation }) => {
       style={[globalStyle.flex1, { backgroundColor: color.BLACK }]}
     >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <SafeAreaView style={{ flex: 1, backgroundColor: color.BLACK }}>
+        <SafeAreaView style={{ flex: 1, backgroundColor: color.WHITE }}>
           {logo && (
             <View style={[globalStyle.containerCentered]}>
               <Logo />

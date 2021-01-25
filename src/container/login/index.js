@@ -99,7 +99,7 @@ export default ({ navigation }) => {
     >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <SafeAreaView
-          style={[globalStyle.flex1, { backgroundColor: color.BLACK }]}
+          style={[globalStyle.flex1, { backgroundColor: color.WHITE }]}
         >
           {logo && (
             <View style={[globalStyle.containerCentered]}>

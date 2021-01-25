@@ -76,7 +76,7 @@ export default StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
     justifyContent: 'center',
-    backgroundColor: color.BLACK,
+    backgroundColor: color.WHITE,
     zIndex: 1,
   },
 

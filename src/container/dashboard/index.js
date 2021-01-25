@@ -15,6 +15,7 @@ import { UpdateUser, LogOutUser } from "../../network";
 export default ({ navigation }) => {
   const globalState = useContext(Store);
   const { dispatchLoaderAction } = globalState;
+
   const [userDetail, setUserDetail] = useState({
     id: "",
     name: "",
@@ -34,7 +35,7 @@ export default ({ navigation }) => {
           onPress={() =>
             Alert.alert(
               "Logout",
-              "Are you sure to log out",
+              "Do you really want to logout?",
               [
                 {
                   text: "Yes",
@@ -51,7 +52,6 @@ export default ({ navigation }) => {
       ),
     });
   }, [navigation]);
-  
 
   useEffect(() => {
     dispatchLoaderAction({
@@ -94,7 +94,6 @@ export default ({ navigation }) => {
       });
     }
   }, []);
-  
 
   const selectPhotoTapped = () => {
     const options = {
@@ -102,10 +101,10 @@ export default ({ navigation }) => {
         skipBackup: true,
       },
     };
-	
 
     ImagePicker.showImagePicker(options, (response) => {
       console.log("Response = ", response);
+
       if (response.didCancel) {
         console.log("User cancelled photo picker");
       } else if (response.error) {
@@ -137,8 +136,7 @@ export default ({ navigation }) => {
       }
     });
   };
-
-
+  // * LOG OUT
   const logout = () => {
     LogOutUser()
       .then(() => {
@@ -151,7 +149,7 @@ export default ({ navigation }) => {
       .catch((err) => alert(err));
   };
 
-
+  // * ON IMAGE TAP
   const imgTap = (profileImg, name) => {
     if (!profileImg) {
       navigation.navigate("ShowFullImg", {
@@ -163,7 +161,7 @@ export default ({ navigation }) => {
     }
   };
 
-
+  // * ON NAME TAP
   const nameTap = (profileImg, name, guestUserId) => {
     if (!profileImg) {
       navigation.navigate("Chat", {
@@ -181,7 +179,7 @@ export default ({ navigation }) => {
       });
     }
   };
-
+  // * GET OPACITY
 
   const getOpacity = () => {
     if (deviceHeight < smallDeviceHeight) {
@@ -191,7 +189,7 @@ export default ({ navigation }) => {
     }
   };
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: color.BLACK }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: color.WHITE }}>
       {getScrollPosition > getOpacity() && (
         <StickyHeader
           name={name}
@@ -200,7 +198,7 @@ export default ({ navigation }) => {
         />
       )}
 
-
+      {/* ALL USERS */}
       <FlatList
         alwaysBounceVertical={false}
         data={allUsers}

@@ -111,7 +111,7 @@ const Chat = ({ route, navigation }) => {
       <KeyboardAvoidingView
         keyboardVerticalOffset={deviceHeight > smallDeviceHeight ? 100 : 70}
         behavior={Platform.OS === "ios" ? "padding" : "height"}
-        style={[globalStyle.flex1, { backgroundColor: color.BLACK }]}
+        style={[globalStyle.flex1, { backgroundColor: color.WHITE }]}
       >
         <TouchableWithoutFeedback
           style={[globalStyle.flex1]}
@@ -144,13 +144,13 @@ const Chat = ({ route, navigation }) => {
               <View style={styles.sendBtnContainer}>
                 <MaterialCommunityIcons
                   name="camera"
-                  color={color.WHITE}
+                  color={color.BLUE}
                   size={appStyle.fieldHeight}
                   onPress={() => handleCamera()}
                 />
                 <MaterialCommunityIcons
                   name="send-circle"
-                  color={color.WHITE}
+                  color={color.BLUE}
                   size={appStyle.fieldHeight}
                   onPress={() => handleSend()}
                 />
